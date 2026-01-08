@@ -16,7 +16,7 @@ def init_db():
     )
     """)
 
-    # Favorites table (UPDATED)
+    # Favorites table 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS favorites (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

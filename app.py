@@ -11,23 +11,17 @@ from database import (
     remove_favorite 
 )
 
-# ==========================================
-# INITIAL SETUP
-# ==========================================
+
 st.set_page_config(page_title="Anime Recommender", layout="wide")
 init_db()
 
 if "user_id" not in st.session_state:
     st.session_state.user_id = None
 
-# ==========================================
-# LOAD ANIME DATA
-# ==========================================
 anime = pd.read_csv("anime_with_id.csv")
 
-# ==========================================
 # LOGIN / SIGNUP
-# ==========================================
+
 if st.session_state.user_id is None:
     st.title("🎌 Anime Recommendation System")
     st.subheader("Login or Create Account")
@@ -56,18 +50,14 @@ if st.session_state.user_id is None:
 
     st.stop()
 
-# ==========================================
 # MAIN APPLICATION
-# ==========================================
 st.title("🎌 Anime Recommendation System")
 
 if st.sidebar.button("Logout"):
     st.session_state.user_id = None
     st.rerun()
 
-# ==========================================
-# FAVORITES SIDEBAR (UPDATED)
-# ==========================================
+# SIDEBAR
 st.sidebar.subheader("⭐ My Favorites")
 
 favorites = get_favorites(st.session_state.user_id)
@@ -90,9 +80,7 @@ else:
         st.sidebar.success("Removed from favorites")
         st.rerun()
 
-# ==========================================
 # ANIME SELECTION
-# ==========================================
 search_term = st.text_input("Type anime name (partial or full):")
 
 if search_term:
@@ -116,9 +104,8 @@ else:
         anime["Anime"] == anime_name, "anime_id"
     ].values[0]
 
-# ==========================================
+
 # ACTION BUTTONS
-# ==========================================
 col1, col2 = st.columns(2)
 
 with col1:
@@ -137,9 +124,7 @@ with col2:
         st.success("Added to favorites!")
         st.rerun()
 
-# ==========================================
 # ANIME DETAILS
-# ==========================================
 if anime_name:
     st.subheader("Anime Details")
     details = anime[anime["Anime"] == anime_name].iloc[0]

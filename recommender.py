@@ -2,20 +2,13 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# ==========================================
-# LOAD DATA (runs once when imported)
-# ==========================================
 anime = pd.read_csv("anime_with_id.csv")
 
-# Combine text features
 anime['content'] = (
     anime['Genre'].fillna('') + ' ' +
     anime['Description'].fillna('')
 )
 
-# ==========================================
-# TF-IDF VECTORIZATION
-# ==========================================
 tfidf = TfidfVectorizer(
     stop_words='english',
     max_features=5000
@@ -23,17 +16,10 @@ tfidf = TfidfVectorizer(
 
 tfidf_matrix = tfidf.fit_transform(anime['content'])
 
-# ==========================================
-# COSINE SIMILARITY MATRIX
-# ==========================================
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
-# Mapping anime name → index
 anime_index = pd.Series(anime.index, index=anime['Anime']).drop_duplicates()
 
-# ==========================================
-# RECOMMENDATION FUNCTION
-# ==========================================
 def recommend_anime(anime_name, top_n=5):
     """
     Returns top_n anime similar to the given anime_name

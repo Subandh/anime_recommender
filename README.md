@@ -87,9 +87,6 @@ Possible future upgrades include:
 * Redirect users directly to where the anime is available
 
 # Smarter Recommendations
-
-* Collaborative filtering (users with similar tastes)
-* Recommendation based on favourites history
 * Popularity-based fallback
 
 ---

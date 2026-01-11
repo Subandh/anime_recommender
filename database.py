@@ -8,7 +8,7 @@ load_dotenv()
 
 DB_NAME = os.getenv("DB_NAME", "anime_app.db")
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 def init_db():

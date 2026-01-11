@@ -1,6 +1,8 @@
+import os
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from joblib import dump, load
 
 anime = pd.read_csv("anime_with_id.csv")
 
@@ -9,14 +11,28 @@ anime['content'] = (
     anime['Description'].fillna('')
 )
 
-tfidf = TfidfVectorizer(
-    stop_words='english',
-    max_features=5000
-)
+ARTIFACTS_PATH = "recommender_artifacts.joblib"
 
-tfidf_matrix = tfidf.fit_transform(anime['content'])
-
-cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+# Try to load precomputed artifacts to speed startup
+if os.path.exists(ARTIFACTS_PATH):
+    try:
+        artifacts = load(ARTIFACTS_PATH)
+        tfidf = artifacts['tfidf']
+        tfidf_matrix = artifacts['tfidf_matrix']
+        cosine_sim = artifacts['cosine_sim']
+    except Exception:
+        tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+        tfidf_matrix = tfidf.fit_transform(anime['content'])
+        cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+        dump({'tfidf': tfidf, 'tfidf_matrix': tfidf_matrix, 'cosine_sim': cosine_sim}, ARTIFACTS_PATH)
+else:
+    tfidf = TfidfVectorizer(stop_words='english', max_features=5000)
+    tfidf_matrix = tfidf.fit_transform(anime['content'])
+    cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+    try:
+        dump({'tfidf': tfidf, 'tfidf_matrix': tfidf_matrix, 'cosine_sim': cosine_sim}, ARTIFACTS_PATH)
+    except Exception:
+        pass
 
 anime_index = pd.Series(anime.index, index=anime['Anime']).drop_duplicates()
 

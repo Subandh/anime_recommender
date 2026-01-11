@@ -1,101 +1,162 @@
 # 🎌 Anime Recommender System
 
-A simple, user-friendly anime recommendation app, especially for users who don’t know what to watch next.
+A simple, user-friendly **Streamlit-based Anime Recommendation App** that helps users discover what to watch next using content-based filtering and live anime metadata from the **Jikan API (MyAnimeList)**.
 
 ---
 
-# Project Overview
+## 📌 Project Overview
 
-Finding a new anime to watch can be overwhelming due to the huge number of choices available. This project solves that problem by:
+Finding a new anime to watch can be overwhelming due to the massive number of available titles. This project solves that problem by:
 
-* Allowing users to **search anime easily**
-* Letting users **save their favourite anime**
-* Generating **recommendations based on selected anime**
-* Keeping favourites **persistent per user** using a database
+* Allowing users to search anime easily
+* Letting users save their favourite anime
+* Generating recommendations based on selected anime
+* Persisting user data and favourites using a local database
 
-The system is designed to be **simple**, **lightweight**, and **easy to extend**.
+The system is intentionally lightweight, beginner-friendly, and easy to extend.
 
 ---
 
-# Recommendation Logic
+## 🧠 Recommendation Logic
 
-The recommender works using a **content-based approach**:
+The recommender uses a **content-based filtering approach**.
+
+### How it works:
 
 1. The user selects an anime they like
-2. The system compares this anime with others based on:
+2. The system compares it with other anime based on:
 
    * Genre
    * Studio
    * Rating
-   * Year
-   * Description similarity
-3. Anime with the **most similar attributes** are recommended
+   * Release year
+   * Description similarity (TF-IDF)
+3. Anime with the highest similarity scores are recommended
 
-This approach works well because:
+### Why this approach works:
 
-* It does not require large user data
-* Recommendations are immediate
+* No large user dataset required
+* Instant recommendations
 * Results feel relevant to the user’s taste
 
 ---
 
-# Why This Project Is Useful
-
-* Helps users **discover new anime quickly**
-* No need to browse hundreds of titles
-* Saves favourites for later viewing
-* Clean and minimal UI
-* Works for both beginners and regular anime watchers
-
-This project reduces the effort of *“searching endlessly”* and turns it into *“click, discover, watch”*.
-
----
-
-# Features
+## ✨ Features
 
 * User Login & Signup
 * Search anime by name
-* Get recommendations
+* Content-based recommendations
 * Add / Remove favourites
 * Persistent storage using SQLite
-* Scrollable recommendation table
+* Scrollable recommendations table
+* Live anime metadata via Jikan API
+* Cached API responses to avoid rate limits
 
 ---
 
-# Tech Stack
+## 🛠 Tech Stack
 
-* Python
-* Streamlit (UI)
-* Pandas & NumPy (data handling)
-* SQLite (persistent database)
+* **Python**
+* **Streamlit** (UI)
+* **Pandas & NumPy** (data handling)
+* **Scikit-learn (TF-IDF)** (similarity)
+* **SQLite** (persistent database)
+* **Jikan API** (MyAnimeList data)
+* **requests-cache** (API caching)
 
 ---
 
-# Future Enhancements
+## ⚙️ Setup Instructions
 
-This project is intentionally simple, but it is designed to scale. 
-Possible future upgrades include:
+### 1. Create & activate a virtual environment (recommended)
 
-# New Releases Library
+```bash
+python -m venv .venv
+
+# Windows
+.\.venv\Scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate
+```
+
+---
+
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 3. Configure environment variables
+
+Copy the example file:
+
+```bash
+# Windows
+copy .env.example .env
+
+# macOS / Linux
+cp .env.example .env
+```
+
+#### Important environment variables:
+
+* `DB_NAME` — SQLite database file (default: `anime_app.db`)
+* `JIKAN_BASE_URL` — Jikan API base URL
+  (default: `https://api.jikan.moe/v4/anime/`)
+* `JIKAN_CACHE_TTL` — Cache duration in seconds
+  (default: `86400` / 24 hours)
+
+> ⚠️ Keep `.env` out of source control — it is ignored via `.gitignore`.
+
+---
+
+### 4. Run the app
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## 📝 Notes
+
+* The app uses **`requests-cache`** to cache Jikan API responses and reduce rate-limit issues
+* User accounts and favourites are stored locally using SQLite
+* The architecture allows easy replacement with a remote backend later
+
+---
+
+## 🚀 Future Enhancements
+
+This project is designed to scale. Possible upgrades include:
+
+### 🔥 New Releases Library
 
 * Automatic fetching of newly released anime
-* Separate section for trending & seasonal anime
+* Trending & seasonal sections
 
-# Watch Links Integration
+### 🔗 Watch Links Integration
 
-* Add links to hosted/streaming platforms
-* Redirect users directly to where the anime is available
+* Direct links to streaming platforms
 
-# Smarter Recommendations
+### 🤖 Smarter Recommendations
+
 * Popularity-based fallback
+* Hybrid recommendation models
 
 ---
 
-# Conclusion
+## ✅ Conclusion
 
-This Anime Recommender System shows how **simple logic + clean design** can solve a real-world problem. It is beginner-friendly, practical, and demonstrates core concepts of:
+The **Anime Recommender System** demonstrates how **simple logic + clean UI** can solve a real-world problem. It showcases core concepts of:
 
 * Recommender systems
 * User personalization
+* API integration
 * Database-backed applications
---------------------------------------------------------------------------------------------------------
+
+Perfect for beginners and practical enough for real use.

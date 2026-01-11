@@ -51,6 +51,7 @@ The recommender uses a **content-based filtering approach**.
 * Scrollable recommendations table
 * Live anime metadata via Jikan API
 * Cached API responses to avoid rate limits
+* User passwords are securely stored using PBKDF2 hashing instead of plaintext, ensuring data privacy and protection.
 
 ---
 
